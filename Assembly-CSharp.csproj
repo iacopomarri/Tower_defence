@@ -57,6 +57,7 @@
     <Compile Include="Assets\Code\Scripts\Health.cs" />
     <Compile Include="Assets\Code\Scripts\Plot.cs" />
     <Compile Include="Assets\Code\Scripts\EnemyMovement.cs" />
+    <Compile Include="Assets\Code\Scripts\Menu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
