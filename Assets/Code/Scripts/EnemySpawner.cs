@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 public class EnemySpawner : MonoBehaviour {
 
     [Header("References")]
@@ -13,6 +11,7 @@ public class EnemySpawner : MonoBehaviour {
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
+    [SerializeField] private float enemiesPerSecondCap = 10f;
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent();
@@ -21,6 +20,7 @@ public class EnemySpawner : MonoBehaviour {
     private float timeSinceLastSpawn;
     private int enemiesAlive;
     private int enemiesLeftToSpawn;
+    private float eps;  //enemies per second
     private bool isSpawining = false;
 
 
@@ -28,16 +28,18 @@ public class EnemySpawner : MonoBehaviour {
         onEnemyDestroy.AddListener(EnemyDestroyed);
     }
 
+
     private void Start() {
         StartCoroutine(StartWave());
     }
+
 
     void Update() {
         if (!isSpawining) return;
 
         timeSinceLastSpawn += Time.deltaTime;
 
-        if (timeSinceLastSpawn >= (1f / enemiesPerSecond) && enemiesLeftToSpawn > 0) {
+        if (timeSinceLastSpawn >= (1f / eps) && enemiesLeftToSpawn > 0) {
             SpawnEnemy();
             enemiesLeftToSpawn--;
             enemiesAlive++;
@@ -50,22 +52,27 @@ public class EnemySpawner : MonoBehaviour {
     }
 
 
-
     private void SpawnEnemy() {
-        GameObject prefabToSpawn = enemyPrefabs[0];
+        int index = Random.Range(0, enemyPrefabs.Length);
+
+        GameObject prefabToSpawn = enemyPrefabs[index];
         Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
     }
+
 
     private void EnemyDestroyed() {
         enemiesAlive--;
     }
 
+
     private IEnumerator StartWave() {
         yield return new WaitForSeconds(timeBetweenWaves);
-        
+
         isSpawining = true;
         enemiesLeftToSpawn = EnemiesPerWave();
+        eps = EnemiesPerSecond();
     }
+
 
     private void EndWave() {
         isSpawining = false;
@@ -74,7 +81,13 @@ public class EnemySpawner : MonoBehaviour {
         StartCoroutine(StartWave());
     }
 
+
     private int EnemiesPerWave() {
         return Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
+    }
+
+    private float EnemiesPerSecond() {
+        float currentEps = enemiesPerSecond * Mathf.Pow(currentWave, difficultyScalingFactor);
+        return Mathf.Clamp(currentEps, 0f, enemiesPerSecondCap);
     }
 }

@@ -28,7 +28,6 @@ public class LevelManager : MonoBehaviour {
 
     public bool SpendCurrency(int amount) {
         if (amount <= currency) {
-            //BU ITEM
             currency -= amount;
             return true;
         }
