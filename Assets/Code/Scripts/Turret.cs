@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Turret : MonoBehaviour {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -10,7 +11,8 @@ public class Turret : MonoBehaviour {
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
-
+    [SerializeField] private GameObject upgradeUI;
+    [SerializeField] private Button upgradeButton;
 
     [Header("Attribute")]
     [SerializeField] private float targetingRange = 5f;
@@ -71,7 +73,13 @@ public class Turret : MonoBehaviour {
         turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
+    public void OpenUpgradeUI() {
+        upgradeUI.SetActive(true);
+    } 
 
+    public void CloseUpgradeUI() {
+        upgradeUI.SetActive(false);
+    }
     private void OnDrawGizmosSelected() {
         Handles.color = Color.cyan;
         Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
