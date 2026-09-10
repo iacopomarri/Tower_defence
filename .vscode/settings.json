@@ -66,5 +66,9 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Tower_defence.sln"
+    "dotnet.defaultSolution": "Tower_defence.sln",
+    "csharp-dev-tools.solutionViewer.selectedWorkspaceSolutions": [
+        "Tower defence.sln",
+        "Tower_defence.sln"
+    ]
 }

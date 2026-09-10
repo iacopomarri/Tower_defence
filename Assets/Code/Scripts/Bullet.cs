@@ -25,11 +25,11 @@ public class Bullet : MonoBehaviour {
 
         Vector2 direction = target.position - transform.position;
 
-        rb.linearVelocity = direction * bulletSpeed;
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        other.gameObject.GetComponent<Health>().TakeDamage(bulletDamage);
+        other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
         Destroy(gameObject);
     }
 
