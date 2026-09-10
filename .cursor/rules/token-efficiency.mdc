@@ -1,0 +1,13 @@
+---
+description: Riduce consumo e spreco di token durante analisi e modifiche
+alwaysApply: true
+---
+
+# Efficienza nell'uso dei token
+
+- Prima di modificare un file, mostra solo il diff mirato della modifica; non riscrivere né mostrare l'intero file.
+- Prima di implementare una funzione, cerca nel repository un'implementazione esistente e riusala invece di riscriverla.
+- Rispondi in modo conciso e diretto; evita premesse come "Certo, ecco..." e spiegazioni non richieste.
+- Per modifiche piccole usa edit mirati; non rigenerare file interi.
+- Leggi e analizza solo i file pertinenti alla richiesta.
+- Evita output, commenti e refactoring non necessari allo scopo richiesto.
