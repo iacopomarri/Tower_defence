@@ -1,0 +1,8 @@
+---
+description: Regole e convenzioni per il codice
+alwaysApply: true
+---
+
+# Regole di sviluppo
+
+- Aggiungi commenti brevi ma descrittivi sopra ogni metodo che crei
