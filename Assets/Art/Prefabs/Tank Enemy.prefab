@@ -184,5 +184,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2454fcf9615ae144b931d1d23f519f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 2
-  currencyWorth: 50
+  hitPoints: 5
+  currencyWorth: 75
