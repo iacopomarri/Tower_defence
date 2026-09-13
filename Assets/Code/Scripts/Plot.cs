@@ -50,10 +50,8 @@ public class Plot : MonoBehaviour
     }
 
 
-    private void BuildTower() {
+    private void BuildTower(Tower towerToBuild) {
         Debug.Log("Building new tower...");
-
-        Tower towerToBuild = BuildManager.main.GetSelectedTower();
 
         if (towerToBuild.cost > LevelManager.main.currency) {
             Debug.Log("You can't afford this tower");
