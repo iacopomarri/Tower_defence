@@ -25,9 +25,8 @@ public class Plot : MonoBehaviour
         sr.color = startColor;
     }
 
+    //User clicked on the plot
     private void OnMouseDown() {
-        Debug.Log("Mouse down...");
-
         if (towerObj != null) {
             ManageExistentTower();
             return;  
@@ -46,7 +45,7 @@ public class Plot : MonoBehaviour
 
 
     private void ManageEmptyPlot() {
-       Menu.main.ToggleMenu();
+       Shop.main.OpenShop();
        //BuildTower();
     }
 
