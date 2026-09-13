@@ -3,12 +3,13 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
-
+    public static Menu main;
+   
     [Header("References")]
     [SerializeField] TextMeshProUGUI currencyUI;
     [SerializeField] Animator anim;
 
-    private bool isMenuOpen = true;
+    private bool isMenuOpen = false;
 
     private void OnGUI() {
         currencyUI.text = LevelManager.main.currency.ToString();
@@ -18,13 +19,16 @@ public class Menu : MonoBehaviour
 
     }
     
+     private void Awake() {
+        main = this;
+    }   
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     public void ToggleMenu()
     {
         isMenuOpen = !isMenuOpen;

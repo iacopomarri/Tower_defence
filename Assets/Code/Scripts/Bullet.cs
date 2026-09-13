@@ -21,7 +21,10 @@ public class Bullet : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!target) return;
+        if (!target) {
+            Destroy(gameObject);
+            return;
+        } 
 
         Vector2 direction = target.position - transform.position;
 
@@ -29,6 +32,11 @@ public class Bullet : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        if (other.transform != target)  {
+            Debug.Log("Bullet hit something other than the target");
+            return;
+        }
+
         other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
         Destroy(gameObject);
     }

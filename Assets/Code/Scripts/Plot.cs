@@ -27,11 +27,32 @@ public class Plot : MonoBehaviour
 
     private void OnMouseDown() {
         Debug.Log("Mouse down...");
+
         if (towerObj != null) {
-            Debug.Log("Opening UI...");
-            turret.OpenUpgradeUI();
+            ManageExistentTower();
             return;  
         } 
+        else {
+            ManageEmptyPlot();
+        }
+
+    }
+
+
+    private void ManageExistentTower() {
+        Debug.Log("Tower already built.");
+        turret.OpenUpgradeUI();
+    }
+
+
+    private void ManageEmptyPlot() {
+       Menu.main.ToggleMenu();
+       //BuildTower();
+    }
+
+
+    private void BuildTower() {
+        Debug.Log("Building new tower...");
 
         Tower towerToBuild = BuildManager.main.GetSelectedTower();
 
@@ -45,6 +66,7 @@ public class Plot : MonoBehaviour
         towerObj = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
         turret = towerObj.GetComponent<Turret>();
     }
+
 
 
     // Update is called once per frame
