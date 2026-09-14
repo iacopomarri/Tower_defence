@@ -22,23 +22,43 @@ public class Shop : MonoBehaviour
         if (anim == null)
         {
             anim = GetComponent<Animator>();
+            if ((anim == null || anim.runtimeAnimatorController == null) && transform.parent != null)
+            {
+                Animator parentAnim = transform.parent.GetComponent<Animator>();
+                if (parentAnim != null)
+                {
+                    anim = parentAnim;
+                }
+            }
         }
 
         if (currencyUI == null)
         {
             Transform currency = transform.Find("Currency");
+            if (currency == null && transform.parent != null)
+            {
+                currency = transform.parent.Find("Currency");
+            }
+
             if (currency != null)
             {
                 currencyUI = currency.GetComponent<TextMeshProUGUI>();
             }
         }
 
-        if (backdrop == null && transform.parent != null)
+        if (backdrop == null)
         {
-            Transform backdropTransform = transform.parent.Find("Shop Backdrop");
-            if (backdropTransform != null)
+            Transform searchRoot = transform.parent;
+            while (searchRoot != null)
             {
-                backdrop = backdropTransform.gameObject;
+                Transform backdropTransform = searchRoot.Find("Shop Backdrop");
+                if (backdropTransform != null)
+                {
+                    backdrop = backdropTransform.gameObject;
+                    break;
+                }
+
+                searchRoot = searchRoot.parent;
             }
         }
 
@@ -65,7 +85,7 @@ public class Shop : MonoBehaviour
     {
         if (currencyUI != null && LevelManager.main != null)
         {
-            currencyUI.text = LevelManager.main.currency.ToString();
+            currencyUI.text = "$ " + LevelManager.main.currency.ToString();
         }
     }
 
