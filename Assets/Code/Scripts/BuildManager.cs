@@ -32,17 +32,33 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        selectedTower = _selectedTower;
-
         if (selectedPlot == null) {
             Debug.Log("No plot selected.");
             return;
         }
+    
+        // First click of the user on the tower to buld. Show a preview of the tower on the field.
+        if (selectedTower != _selectedTower) {
+            selectedTower = _selectedTower;
+            PreviewTowerOnPlot();
 
-        if (selectedPlot.BuildTower(GetSelectedTower())) {
-            Shop.main.CloseShop(true);
-        }
+        } else {
+            // Second click of the user on the tower to build. Build the tower on the field.
+            BuildTowerOnPlot();
+        }     
     }
+
+    private void PreviewTowerOnPlot() {
+        // Show a preview of the tower on the field.
+        // selectedPlot.PreviewTower(GetSelectedTower());
+    }
+
+    private void BuildTowerOnPlot() {
+          if (selectedPlot.BuildTower(GetSelectedTower())) {
+            Shop.main.CloseShop(true);
+          }
+    }
+
 
     public void ResetSelectedTower() {
         selectedTower = -1;
