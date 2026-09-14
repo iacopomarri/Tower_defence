@@ -1903,7 +1903,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1930768847}
         m_TargetAssemblyTypeName: BuildManager, Assembly-CSharp
-        m_MethodName: SetSelectedTower
+        m_MethodName: SelectTowerToBuild
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7977,7 +7977,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1930768847}
         m_TargetAssemblyTypeName: BuildManager, Assembly-CSharp
-        m_MethodName: SetSelectedTower
+        m_MethodName: SelectTowerToBuild
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

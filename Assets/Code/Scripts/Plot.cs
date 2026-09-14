@@ -32,6 +32,7 @@ public class Plot : MonoBehaviour
             return;  
         } 
         else {
+            BuildManager.main.SetSelectedPlot(this);
             ManageEmptyPlot();
         }
 
@@ -46,22 +47,33 @@ public class Plot : MonoBehaviour
 
     private void ManageEmptyPlot() {
        Shop.main.OpenShop();
-       //BuildTower();
     }
 
 
-    private void BuildTower(Tower towerToBuild) {
+    // Instantiates the chosen tower on this plot if the player can afford it.
+    public bool BuildTower(Tower towerToBuild) {
         Debug.Log("Building new tower...");
+
+        if (towerToBuild == null) {
+            Debug.Log("No tower selected.");
+            return false;
+        }
+
+        if (towerObj != null) {
+            Debug.Log("Tower already built.");
+            return false;
+        }
 
         if (towerToBuild.cost > LevelManager.main.currency) {
             Debug.Log("You can't afford this tower");
-            return;
+            return false;
         }
 
         LevelManager.main.SpendCurrency(towerToBuild.cost);
 
         towerObj = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
         turret = towerObj.GetComponent<Turret>();
+        return true;
     }
 
 

@@ -42,6 +42,9 @@ public class Shop : MonoBehaviour
             }
         }
 
+    }
+
+    private void Start() {
         CloseShop();
     }
 
@@ -77,9 +80,9 @@ public class Shop : MonoBehaviour
     }
 
     // Closes the shop panel.
-    public void CloseShop()
+    public void CloseShop(bool force = false)
     {
-        if (Time.unscaledTime < ignoreBackdropClicksUntil)
+        if (!force && Time.unscaledTime < ignoreBackdropClicksUntil)
         {
             return;
         }
