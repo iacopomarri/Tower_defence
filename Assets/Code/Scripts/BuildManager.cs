@@ -48,9 +48,10 @@ public class BuildManager : MonoBehaviour
         }     
     }
 
+    // Shows a temporary range-disc preview of the selected tower on the currently selected plot.
     private void PreviewTowerOnPlot() {
-        // Show a preview of the tower on the field.
-        // selectedPlot.PreviewTower(GetSelectedTower());
+        if (selectedPlot == null || GetSelectedTower() == null) return;
+        selectedPlot.PreviewTower(GetSelectedTower());
     }
 
     private void BuildTowerOnPlot() {
@@ -60,7 +61,9 @@ public class BuildManager : MonoBehaviour
     }
 
 
+    // Clears the range preview and resets selection state (called on shop close or cancel).
     public void ResetSelectedTower() {
+        if (selectedPlot != null) selectedPlot.ClearPreview();
         selectedTower = -1;
         selectedPlot = null;
     }

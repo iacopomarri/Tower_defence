@@ -102,11 +102,6 @@ public class Shop : MonoBehaviour
     // Closes the shop panel.
     public void CloseShop(bool force = false)
     {
-        if (!force && Time.unscaledTime < ignoreBackdropClicksUntil)
-        {
-            return;
-        }
-
         isShopOpen = false;
         BuildManager.main.ResetSelectedTower();
         SetBackdropActive(false);
@@ -115,6 +110,10 @@ public class Shop : MonoBehaviour
 
     public void BackdropClick()
     {
+        if (!force && Time.unscaledTime < ignoreBackdropClicksUntil)
+        {
+            return;
+        }
         CloseShop();
     }
 

@@ -8,6 +8,7 @@ public class Plot : MonoBehaviour
     [SerializeField] private Color hoverColor;
 
     private GameObject towerObj;
+    private GameObject previewObj;
     public Turret turret;
     private Color startColor;
 
@@ -50,8 +51,23 @@ public class Plot : MonoBehaviour
     }
 
 
+    // Spawns a temporary range-disc preview centered on this plot.
+    public void PreviewTower(Tower towerToBuild) {
+        ClearPreview();
+        previewObj = RangePreview.Create(transform.position, towerToBuild.GetRange());
+    }
+
+    // Destroys the current range-disc preview if one exists.
+    public void ClearPreview() {
+        if (previewObj != null) {
+            Destroy(previewObj);
+            previewObj = null;
+        }
+    }
+
     // Instantiates the chosen tower on this plot if the player can afford it.
     public bool BuildTower(Tower towerToBuild) {
+        ClearPreview();
         Debug.Log("Building new tower...");
 
         if (towerToBuild == null) {
@@ -72,6 +88,8 @@ public class Plot : MonoBehaviour
         LevelManager.main.SpendCurrency(towerToBuild.cost);
 
         towerObj = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
+
+        //TODO: here we should check if the tower is a Turret or a TurretSlowmo and assign the correct component to the turret variable.
         turret = towerObj.GetComponent<Turret>();
         return true;
     }

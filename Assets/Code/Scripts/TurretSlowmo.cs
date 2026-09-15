@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-public class TurretSlowmo : MonoBehaviour
+public class TurretSlowmo : MonoBehaviour, ITurret
 {
 
     [Header("References")]
@@ -55,6 +55,9 @@ public class TurretSlowmo : MonoBehaviour
         em.ResetSpeed();
     }
     
+    // Exposes the targeting range so the build preview can read it from the prefab.
+    public float TargetingRange => targetingRange;
+
     private void OnDrawGizmosSelected() {
         Handles.color = Color.cyan;
         Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);

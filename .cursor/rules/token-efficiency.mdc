@@ -10,3 +10,4 @@ alwaysApply: true
 - Per modifiche piccole usa edit mirati; non rigenerare file interi.
 - Leggi e analizza solo i file pertinenti alla richiesta.
 - Evita output e refactoring non necessari allo scopo richiesto.
+- Evita di fare Refresh degli assets di unity

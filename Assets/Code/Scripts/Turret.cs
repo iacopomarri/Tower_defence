@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Turret : MonoBehaviour {
+public class Turret : MonoBehaviour, ITurret {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("References")]
@@ -72,6 +72,9 @@ public class Turret : MonoBehaviour {
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
         turretRotationPoint.rotation = Quaternion.RotateTowards(turretRotationPoint.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
+
+    // Exposes the targeting range so the build preview can read it from the prefab.
+    public float TargetingRange => targetingRange;
 
     public void OpenUpgradeUI() {
         upgradeUI.SetActive(true);
