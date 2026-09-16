@@ -1,30 +1,24 @@
 using UnityEngine;
 
-public class BuildManager : MonoBehaviour
-{
+public class BuildManager : MonoBehaviour {
+
     public static BuildManager main;
 
     [Header("References")]
     [SerializeField] private Tower[] towers;
     private int selectedTower = -1;
-    private Plot selectedPlot;
 
     private void Awake() {
         main = this;
     }
 
+    // Returns the currently selected Tower definition, or null if none.
     private Tower GetSelectedTower() {
-        if (selectedTower < 0 || selectedTower >= towers.Length)
-            return null;
-
+        if (selectedTower < 0 || selectedTower >= towers.Length) return null;
         return towers[selectedTower];
     }
 
-    // Stores the plot the player clicked so a shop purchase can build on it.
-    public void SetSelectedPlot(Plot plot) {
-        selectedPlot = plot;
-    }
-
+    // Called by shop buttons; previews on first click, builds on second click of same tower.
     public void SelectTowerToBuild(int _selectedTower) {
         if (_selectedTower < 0 || _selectedTower >= towers.Length) {
             selectedTower = -1;
@@ -32,53 +26,44 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        if (selectedPlot == null) {
+        if (PlotSelectionManager.main.SelectedPlot == null) {
             Debug.Log("No plot selected.");
             return;
         }
-    
-        // First click of the user on the tower to buld. Show a preview of the tower on the field.
+
+        // First click of the user on the tower to build: show a preview.
         if (selectedTower != _selectedTower) {
             selectedTower = _selectedTower;
             PreviewTowerOnPlot();
-
         } else {
-            // Second click of the user on the tower to build. Build the tower on the field.
+            // Second click: build the tower.
             BuildTowerOnPlot();
-        }     
+        }
     }
 
     // Shows a temporary range-disc preview of the selected tower on the currently selected plot.
     private void PreviewTowerOnPlot() {
-        if (selectedPlot == null || GetSelectedTower() == null) return;
-        selectedPlot.PreviewTower(GetSelectedTower());
+        Plot plot = PlotSelectionManager.main.SelectedPlot;
+        if (plot == null || GetSelectedTower() == null) return;
+        plot.PreviewTower(GetSelectedTower());
     }
 
+    // Builds the selected tower on the currently selected plot and deselects on success.
     private void BuildTowerOnPlot() {
-          if (selectedPlot.BuildTower(GetSelectedTower())) {
-            Shop.main.CloseShop(true);
-          }
+        Plot plot = PlotSelectionManager.main.SelectedPlot;
+        if (plot == null) return;
+        if (plot.BuildTower(GetSelectedTower())) {
+            PlotSelectionManager.main.Deselect();
+        }
     }
-
 
     // Clears the range preview and resets selection state (called on shop close or cancel).
     public void ResetSelectedTower() {
-        if (selectedPlot != null) selectedPlot.ClearPreview();
+        Plot plot = PlotSelectionManager.main?.SelectedPlot;
+        if (plot != null) plot.ClearPreview();
         selectedTower = -1;
-        selectedPlot = null;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    //test commit
+    void Start() { }
+    void Update() { }
 }

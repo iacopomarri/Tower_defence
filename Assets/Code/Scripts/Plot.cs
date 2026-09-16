@@ -1,60 +1,63 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class Plot : MonoBehaviour
-{
+public class Plot : MonoBehaviour {
+
     [Header("References")]
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Color hoverColor;
+    [SerializeField] private Color selectedColor;
 
     private GameObject towerObj;
     private GameObject previewObj;
-    public Turret turret;
+    private ITurret turret;
     private Color startColor;
+    private bool isSelected;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         startColor = sr.color;
     }
 
+    // Tints on hover unless the plot is already selected.
     private void OnMouseEnter() {
+        if (isSelected) return;
         sr.color = hoverColor;
     }
 
+    // Restores tint on hover-exit unless the plot is selected.
     private void OnMouseExit() {
+        if (isSelected) return;
         sr.color = startColor;
     }
 
-    //User clicked on the plot
+    // Routes click to the PlotSelectionManager (single source of truth for selection).
     private void OnMouseDown() {
-        if (towerObj != null) {
-            ManageExistentTower();
-            return;  
-        } 
-        else {
-            BuildManager.main.SetSelectedPlot(this);
-            ManageEmptyPlot();
-        }
-
+        PlotSelectionManager.main.SelectPlot(this);
     }
 
-
-    private void ManageExistentTower() {
-        Debug.Log("Tower already built.");
-        turret.OpenUpgradeUI();
+    // Applies or removes the selected-color tint.
+    public void SetSelected(bool selected) {
+        isSelected = selected;
+        sr.color = selected ? selectedColor : startColor;
     }
 
+    // True when a tower has been built on this plot.
+    public bool HasTurret => towerObj != null;
 
-    private void ManageEmptyPlot() {
-       Shop.main.OpenShop();
-    }
+    // The ITurret component of the built tower (null if no tower).
+    public ITurret Turret => turret;
 
-
-    // Spawns a temporary range-disc preview centered on this plot.
+    // Spawns a temporary range-disc preview for a tower about to be built.
     public void PreviewTower(Tower towerToBuild) {
         ClearPreview();
         previewObj = RangePreview.Create(transform.position, towerToBuild.GetRange());
+    }
+
+    // Shows thet's range disc while the upgrade UI is open.
+    public void PreviewTurretRange() {
+        ClearPreview();
+        if (turret != null) {
+            previewObj = RangePreview.Create(transform.position, turret.TargetingRange);
+        }
     }
 
     // Destroys the current range-disc preview if one exists.
@@ -88,17 +91,10 @@ public class Plot : MonoBehaviour
         LevelManager.main.SpendCurrency(towerToBuild.cost);
 
         towerObj = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
-
-        //TODO: here we should check if the tower is a Turret or a TurretSlowmo and assign the correct component to the turret variable.
-        turret = towerObj.GetComponent<Turret>();
+        // Resolves ITurret regardless of whether the prefab uses Turret or TurretSlowmo.
+        turret = towerObj.GetComponent<ITurret>();
         return true;
     }
 
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 }

@@ -1,5 +1,15 @@
-// Common contract for all turret types. Implement this on every turret MonoBehaviour
-// so that Plot.GetTowerRange() can retrieve the targeting range without knowing the concrete type.
+// Common contract for all turret types.
+// Implement on every turret MonoBehaviour to keep Plot, PlotSelectionManager, and TurretUpgradeUI type-agnostic.
 public interface ITurret {
     float TargetingRange { get; }
+    int Level { get; }
+    int MaxLevel { get; }
+    string StatLabel { get; }
+    float CurrentStat { get; }
+    float NextStat { get; }
+    int NextUpgradeCost { get; }
+    bool CanUpgrade { get; }
+    bool TryUpgrade();
+    void OpenUpgradeUI();
+    void CloseUpgradeUI();
 }
