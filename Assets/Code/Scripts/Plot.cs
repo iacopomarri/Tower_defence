@@ -93,6 +93,7 @@ public class Plot : MonoBehaviour {
         towerObj = Instantiate(towerToBuild.prefab, transform.position, Quaternion.identity);
         // Resolves ITurret regardless of whether the prefab uses Turret or TurretSlowmo.
         turret = towerObj.GetComponent<ITurret>();
+        Debug.Log("Tower built successfully.");
         return true;
     }
 

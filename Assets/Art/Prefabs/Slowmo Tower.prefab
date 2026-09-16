@@ -717,7 +717,7 @@ MonoBehaviour:
   enemyMask:
     serializedVersion: 2
     m_Bits: 64
-  upgradeUI: {fileID: 0}
+  upgradeUI: {fileID: 477646378555582229}
   upgrader:
     data: {fileID: 11400000, guid: 7d20026eaa6a7f74cac19a91b819c051, type: 2}
   targetingRange: 2

@@ -66,8 +66,8 @@ public class PlotSelectionManager : MonoBehaviour {
 
         if (SelectedPlot.HasTurret) {
             SelectedPlot.Turret.CloseUpgradeUI();
-        } else {
+        } //else {
             Shop.main.CloseShop();
-        }
+        //}
     }
 }
