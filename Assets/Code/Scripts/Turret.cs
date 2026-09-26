@@ -8,8 +8,6 @@ public class Turret : MonoBehaviour, ITurret {
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
-    [SerializeField] private GameObject upgradeUI;
-
     [Header("Upgrade")]
     [SerializeField] private TurretUpgrader upgrader;
 
@@ -96,15 +94,14 @@ public class Turret : MonoBehaviour, ITurret {
         return false;
     }
 
-    // Shows the upgrade panel and immediately refreshes its labels.
+    // Shows the shared upgrade panel bound to this turret.
     public void OpenUpgradeUI() {
-        upgradeUI.SetActive(true);
-        upgradeUI.GetComponentInChildren<TurretUpgradeUI>()?.Refresh();
+        TurretUpgradeUI.main.Open(this);
     }
 
-    // Hides the upgrade panel.
+    // Hides the shared upgrade panel.
     public void CloseUpgradeUI() {
-        upgradeUI.SetActive(false);
+        TurretUpgradeUI.main.Close();
     }
 
     private void OnDrawGizmosSelected() {

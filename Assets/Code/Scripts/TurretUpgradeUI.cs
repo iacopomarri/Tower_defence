@@ -2,9 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Reusable panel component placed on each turret's upgrade UI GameObject.
-// Populates labels from the owning ITurret and delegates the upgrade action to it.
+// Singleton upgrade panel that lives in the scene (like Shop).
+// Any turret calls Open(this) to bind itself and show the panel at its fixed screen position.
 public class TurretUpgradeUI : MonoBehaviour {
+
+    public static TurretUpgradeUI main;
 
     [Header("References")]
     [SerializeField] private TextMeshProUGUI levelLabel;
@@ -14,9 +16,25 @@ public class TurretUpgradeUI : MonoBehaviour {
 
     private ITurret turret;
 
-    // Finds the owning ITurret anywhere in the parent hierarchy.
+    // Registers the singleton and starts hidden.
     private void Awake() {
-        turret = GetComponentInParent<ITurret>();
+        main = this;
+        gameObject.SetActive(false);
+    }
+
+    // Binds to the given turret, shows the panel, and refreshes all labels.
+    public void Open(ITurret turretToShow) {
+        Debug.Log("TurretUpgradeUI.Open called");
+        turret = turretToShow;
+        gameObject.SetActive(true);
+        Refresh();
+    }
+
+    // Hides the panel and clears the turret reference.
+    public void Close() {
+        Debug.Log("TurretUpgradeUI.Close called");
+        gameObject.SetActive(false);
+        turret = null;
     }
 
     // Refreshes all labels and button interactability from the current turret state.
